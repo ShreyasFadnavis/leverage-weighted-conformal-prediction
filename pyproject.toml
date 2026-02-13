@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lwcp"
+version = "0.1.0"
+description = "Leverage-Weighted Conformal Prediction"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+authors = [
+    {name = "Shreyas Fadnavis"},
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Mathematics",
+]
+keywords = ["conformal prediction", "leverage", "uncertainty quantification", "regression"]
+dependencies = [
+    "numpy>=1.24",
+    "scipy>=1.10",
+    "scikit-learn>=1.3",
+]
+
+[project.urls]
+Homepage = "https://github.com/shreyasfadnavis/lwcp"
+Repository = "https://github.com/shreyasfadnavis/lwcp"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov",
+]
+experiments = [
+    "matplotlib>=3.7",
+    "quantile-forest>=1.3",
+]
+
+[tool.setuptools.packages.find]
+include = ["lwcp*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
