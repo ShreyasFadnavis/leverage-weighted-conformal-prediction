@@ -31,8 +31,8 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/shreyasfadnavis/lwcp"
-Repository = "https://github.com/shreyasfadnavis/lwcp"
+Homepage = "https://github.com/shreyasfadnavis/leverage-weighted-conformal-prediction"
+Repository = "https://github.com/shreyasfadnavis/leverage-weighted-conformal-prediction"
 
 [project.optional-dependencies]
 dev = [
