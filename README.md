@@ -30,53 +30,51 @@ pip install -e ".[experiments]"
 
 ## Example
 
-Vanilla conformal prediction uses constant-width bands everywhere. LWCP adapts:
-narrow intervals where data is dense (low leverage), wider where data is sparse
-(high leverage) — honestly reflecting prediction uncertainty.
+Vanilla conformal prediction uses constant-width intervals for every test point.
+LWCP adapts: narrower where a test point is near the training data (low leverage),
+wider where it is far away (high leverage).
 
 ![LWCP Example](examples/lwcp_example.png)
 
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import Ridge
 from lwcp import LWCP, ConstantWeight
 
-# Dense cluster near origin + sparse tail — dramatic leverage contrast
-rng = np.random.default_rng(7)
-X = np.vstack([rng.normal(0, 0.8, (280, 1)), rng.uniform(4, 8, (20, 1))])
-y = 2.0 * X.ravel() + 0.3 * X.ravel()**2 + rng.normal(0, 1.5, size=300)
+# 30 features, mix of normal + high-leverage points
+rng = np.random.default_rng(5)
+p, n = 30, 200
+X = rng.standard_normal((n, p))
+X[-20:] *= 3  # 20 high-leverage points far from centroid
+
+beta = rng.standard_normal(p) * 0.5
+y = X @ beta + rng.normal(0, 2.0, size=n)
 
 # Fit LWCP and Vanilla CP
-model = LWCP(predictor=LinearRegression(), alpha=0.1, random_state=0)
+model = LWCP(predictor=Ridge(alpha=1.0), alpha=0.1, random_state=0)
 model.fit(X, y)
-
-vanilla = LWCP(predictor=LinearRegression(), alpha=0.1, random_state=0,
+vanilla = LWCP(predictor=Ridge(alpha=1.0), alpha=0.1, random_state=0,
                weight_fn=ConstantWeight())
 vanilla.fit(X, y)
 
-# Predict on a dense grid
-X_grid = np.linspace(-3, 9, 600).reshape(-1, 1)
-y_pred, lower, upper = model.predict(X_grid)
-y_pred_v, lower_v, upper_v = vanilla.predict(X_grid)
+# Test on low + high leverage points
+X_test = np.vstack([rng.standard_normal((150, p)),
+                    rng.standard_normal((150, p)) * 3])
+_, lo, hi = model.predict(X_test)
+_, lo_v, hi_v = vanilla.predict(X_test)
 
-# Plot side by side
-fig, axes = plt.subplots(1, 2, figsize=(14, 5.5), sharey=True)
-for ax, lo, hi, yp, color, title in [
-    (axes[0], lower_v, upper_v, y_pred_v, "#7f7f7f", "Vanilla Conformal Prediction"),
-    (axes[1], lower, upper, y_pred, "#d62728", "Leverage-Weighted CP (LWCP)"),
-]:
-    ax.fill_between(X_grid.ravel(), lo, hi, alpha=0.22, color=color,
-                    label="90% prediction interval")
-    ax.scatter(X.ravel(), y, alpha=0.4, s=14, color="#333333",
-               edgecolors="white", linewidths=0.3, zorder=3)
-    ax.plot(X_grid.ravel(), yp, color=color, linewidth=2.2, zorder=4)
-    ax.set_xlabel("x"); ax.set_title(title, fontweight="bold")
-    ax.legend(loc="upper left")
-axes[0].set_ylabel("y")
+h = model.leverage_computer_.leverage_scores(X_test)
+w_lwcp, w_vanilla = hi - lo, hi_v - lo_v
 
-plt.tight_layout()
-plt.savefig("lwcp_example.png", dpi=150)
+# Right panel: width vs leverage
+fig, ax = plt.subplots(figsize=(8, 5))
+ax.scatter(h, w_vanilla, alpha=0.5, s=25, color="#7f7f7f", label="Vanilla CP")
+ax.scatter(h, w_lwcp, alpha=0.5, s=25, color="#d62728", label="LWCP")
+ax.set_xlabel("Leverage score h(x)")
+ax.set_ylabel("Interval width")
+ax.set_title("Width Adapts to Leverage")
+ax.legend()
 plt.show()
 ```
 
