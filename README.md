@@ -5,7 +5,7 @@ Prediction intervals that adapt to statistical leverage. High-leverage points
 receive narrower intervals. The result is tighter intervals on average while
 preserving both marginal and approximate conditional coverage.
 
-**Paper:** *Leverage-Weighted Conformal Prediction*, Fadnavis (2026). UAI 2026.
+**Paper:** *Leverage-Weighted Conformal Prediction*, Fadnavis (2026).
 
 ## Installation
 
@@ -31,6 +31,8 @@ pip install -e ".[experiments]"
 ## Example
 
 A complete example on the Diabetes dataset with visualization:
+
+![LWCP Example](examples/lwcp_example.png)
 
 ```python
 import numpy as np
@@ -241,11 +243,10 @@ tests/
 ## Citation
 
 ```bibtex
-@inproceedings{fadnavis2026lwcp,
-  author    = {Fadnavis, Shreyas},
-  title     = {Leverage-Weighted Conformal Prediction},
-  booktitle = {Uncertainty in Artificial Intelligence (UAI)},
-  year      = {2026}
+@article{fadnavis2026lwcp,
+  author  = {Fadnavis, Shreyas},
+  title   = {Leverage-Weighted Conformal Prediction},
+  year    = {2026}
 }
 ```
 
