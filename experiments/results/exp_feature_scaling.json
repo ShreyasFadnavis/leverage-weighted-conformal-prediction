@@ -1,0 +1,82 @@
+{
+  "synthetic": {
+    "No scaling": {
+      "vanilla_cov": 0.8971400000000002,
+      "lwcp_cov": 0.8973599999999999,
+      "vanilla_gap": 0.040200000000000014,
+      "lwcp_gap": 0.036100000000000014,
+      "eta_hat_mean": 0.27222558159235327,
+      "eta_hat_std": 0.007859098453830508
+    },
+    "StandardScaler": {
+      "vanilla_cov": 0.8971400000000002,
+      "lwcp_cov": 0.8973399999999999,
+      "vanilla_gap": 0.042200000000000015,
+      "lwcp_gap": 0.0371,
+      "eta_hat_mean": 0.272363726043818,
+      "eta_hat_std": 0.007770064803313014
+    },
+    "MinMaxScaler": {
+      "vanilla_cov": 0.8971400000000002,
+      "lwcp_cov": 0.89736,
+      "vanilla_gap": 0.04150000000000001,
+      "lwcp_gap": 0.03670000000000001,
+      "eta_hat_mean": 0.26818473363690387,
+      "eta_hat_std": 0.0077015965553321256
+    },
+    "RobustScaler": {
+      "vanilla_cov": 0.8971400000000002,
+      "lwcp_cov": 0.89736,
+      "vanilla_gap": 0.0416,
+      "lwcp_gap": 0.03730000000000001,
+      "eta_hat_mean": 0.27233643231373056,
+      "eta_hat_std": 0.007638278533276626
+    }
+  },
+  "real": {
+    "Diabetes": {
+      "No scaling": {
+        "vanilla_gap": 0.05925925925925926,
+        "lwcp_gap": 0.06481481481481481,
+        "eta_hat_mean": 0.7112073354492766
+      },
+      "StandardScaler": {
+        "vanilla_gap": 0.06111111111111111,
+        "lwcp_gap": 0.06666666666666667,
+        "eta_hat_mean": 0.709678100159545
+      },
+      "MinMaxScaler": {
+        "vanilla_gap": 0.05,
+        "lwcp_gap": 0.05555555555555555,
+        "eta_hat_mean": 0.5528875777179424
+      },
+      "RobustScaler": {
+        "vanilla_gap": 0.06296296296296296,
+        "lwcp_gap": 0.07037037037037036,
+        "eta_hat_mean": 0.6737913359257808
+      }
+    },
+    "CPU Activity": {
+      "No scaling": {
+        "vanilla_gap": 0.116260162601626,
+        "lwcp_gap": 0.11361788617886179,
+        "eta_hat_mean": 2.94085016100125
+      },
+      "StandardScaler": {
+        "vanilla_gap": 0.18800813008130077,
+        "lwcp_gap": 0.186280487804878,
+        "eta_hat_mean": 2.972110881251937
+      },
+      "MinMaxScaler": {
+        "vanilla_gap": 0.11605691056910568,
+        "lwcp_gap": 0.11341463414634148,
+        "eta_hat_mean": 2.9412686680234947
+      },
+      "RobustScaler": {
+        "vanilla_gap": 0.16666666666666666,
+        "lwcp_gap": 0.16443089430894306,
+        "eta_hat_mean": 2.9555956074290446
+      }
+    }
+  }
+}

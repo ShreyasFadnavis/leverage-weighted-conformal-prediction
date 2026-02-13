@@ -1,0 +1,187 @@
+{
+  "synthetic": {
+    "Textbook": {
+      "selection_counts": {
+        "Constant": 28,
+        "InvRoot": 8,
+        "Power(0.3)": 10,
+        "Power(0.7)": 4
+      },
+      "selection_fractions": {
+        "Constant": 0.56,
+        "InvRoot": 0.16,
+        "Power(0.3)": 0.2,
+        "Power(0.7)": 0.08
+      },
+      "per_weight_gap": {
+        "Constant": 0.04380000000000002,
+        "InvRoot": 0.03800000000000001,
+        "Power(0.3)": 0.05460000000000001,
+        "Power(0.7)": 0.15059999999999996
+      },
+      "auto_gap": 0.053800000000000014,
+      "auto_msce": 0.0024071999999999995,
+      "default_gap": 0.03800000000000001
+    },
+    "Heavy-tail": {
+      "selection_counts": {
+        "Constant": 21,
+        "InvRoot": 3,
+        "Power(0.3)": 18,
+        "Power(0.7)": 8
+      },
+      "selection_fractions": {
+        "Constant": 0.42,
+        "InvRoot": 0.06,
+        "Power(0.3)": 0.36,
+        "Power(0.7)": 0.16
+      },
+      "per_weight_gap": {
+        "Constant": 0.039200000000000006,
+        "InvRoot": 0.033600000000000005,
+        "Power(0.3)": 0.0374,
+        "Power(0.7)": 0.1072
+      },
+      "auto_gap": 0.048,
+      "auto_msce": 0.0021855999999999993,
+      "default_gap": 0.033600000000000005
+    },
+    "Polynomial": {
+      "selection_counts": {
+        "Constant": 44,
+        "InvRoot": 4,
+        "Power(0.3)": 2,
+        "Power(0.7)": 0
+      },
+      "selection_fractions": {
+        "Constant": 0.88,
+        "InvRoot": 0.08,
+        "Power(0.3)": 0.04,
+        "Power(0.7)": 0.0
+      },
+      "per_weight_gap": {
+        "Constant": 0.03480000000000001,
+        "InvRoot": 0.029200000000000007,
+        "Power(0.3)": 0.2962,
+        "Power(0.7)": 0.46419999999999995
+      },
+      "auto_gap": 0.044000000000000004,
+      "auto_msce": 0.0030832000000000004,
+      "default_gap": 0.029200000000000007
+    },
+    "Adversarial": {
+      "selection_counts": {
+        "Constant": 29,
+        "InvRoot": 6,
+        "Power(0.3)": 11,
+        "Power(0.7)": 4
+      },
+      "selection_fractions": {
+        "Constant": 0.58,
+        "InvRoot": 0.12,
+        "Power(0.3)": 0.22,
+        "Power(0.7)": 0.08
+      },
+      "per_weight_gap": {
+        "Constant": 0.043199999999999995,
+        "InvRoot": 0.03580000000000001,
+        "Power(0.3)": 0.05520000000000001,
+        "Power(0.7)": 0.14999999999999997
+      },
+      "auto_gap": 0.05260000000000001,
+      "auto_msce": 0.0023328,
+      "default_gap": 0.03580000000000001
+    },
+    "Homoscedastic": {
+      "selection_counts": {
+        "Constant": 34,
+        "InvRoot": 6,
+        "Power(0.3)": 6,
+        "Power(0.7)": 4
+      },
+      "selection_fractions": {
+        "Constant": 0.68,
+        "InvRoot": 0.12,
+        "Power(0.3)": 0.12,
+        "Power(0.7)": 0.08
+      },
+      "per_weight_gap": {
+        "Constant": 0.038800000000000015,
+        "InvRoot": 0.03260000000000001,
+        "Power(0.3)": 0.06459999999999999,
+        "Power(0.7)": 0.1594
+      },
+      "auto_gap": 0.0522,
+      "auto_msce": 0.0022992,
+      "default_gap": 0.03260000000000001
+    }
+  },
+  "real": {
+    "Diabetes": {
+      "selection_counts": {
+        "Constant": 16,
+        "InvRoot": 1,
+        "Power(0.3)": 3,
+        "Power(0.7)": 0
+      },
+      "selection_fractions": {
+        "Constant": 0.8,
+        "InvRoot": 0.05,
+        "Power(0.3)": 0.15,
+        "Power(0.7)": 0.0
+      },
+      "per_weight_gap": {
+        "Constant": 0.05833333333333333,
+        "InvRoot": 0.05833333333333333,
+        "Power(0.3)": 0.175,
+        "Power(0.7)": 0.2777777777777778
+      },
+      "auto_gap": 0.07777777777777777,
+      "default_gap": 0.05833333333333333
+    },
+    "CPU Activity": {
+      "selection_counts": {
+        "Constant": 2,
+        "InvRoot": 0,
+        "Power(0.3)": 18,
+        "Power(0.7)": 0
+      },
+      "selection_fractions": {
+        "Constant": 0.1,
+        "InvRoot": 0.0,
+        "Power(0.3)": 0.9,
+        "Power(0.7)": 0.0
+      },
+      "per_weight_gap": {
+        "Constant": 0.1820121951219512,
+        "InvRoot": 0.18048780487804872,
+        "Power(0.3)": 0.10060975609756098,
+        "Power(0.7)": 0.2797256097560975
+      },
+      "auto_gap": 0.11173780487804878,
+      "default_gap": 0.18048780487804872
+    },
+    "Heavy-tailed": {
+      "selection_counts": {
+        "Constant": 15,
+        "InvRoot": 3,
+        "Power(0.3)": 0,
+        "Power(0.7)": 2
+      },
+      "selection_fractions": {
+        "Constant": 0.75,
+        "InvRoot": 0.15,
+        "Power(0.3)": 0.0,
+        "Power(0.7)": 0.1
+      },
+      "per_weight_gap": {
+        "Constant": 0.09749999999999999,
+        "InvRoot": 0.059999999999999984,
+        "Power(0.3)": 0.06749999999999998,
+        "Power(0.7)": 0.175
+      },
+      "auto_gap": 0.07999999999999999,
+      "default_gap": 0.059999999999999984
+    }
+  }
+}
