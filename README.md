@@ -30,8 +30,9 @@ pip install -e ".[experiments]"
 
 ## Example
 
-Vanilla conformal prediction uses constant-width bands. LWCP adapts: wider where
-data is sparse (high leverage), narrower where data is dense.
+Vanilla conformal prediction uses constant-width bands everywhere. LWCP adapts:
+narrow intervals where data is dense (low leverage), wider where data is sparse
+(high leverage) — honestly reflecting prediction uncertainty.
 
 ![LWCP Example](examples/lwcp_example.png)
 
@@ -41,10 +42,10 @@ import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 from lwcp import LWCP, ConstantWeight
 
-# 1D regression: cluster of points near origin, a few high-leverage points far out
-rng = np.random.default_rng(42)
-X = np.vstack([rng.normal(0, 1, (250, 1)), rng.uniform(3, 6, (50, 1))])
-y = 3.0 * X.ravel() + rng.normal(0, 2, size=300)
+# Dense cluster near origin + sparse tail — dramatic leverage contrast
+rng = np.random.default_rng(7)
+X = np.vstack([rng.normal(0, 0.8, (280, 1)), rng.uniform(4, 8, (20, 1))])
+y = 2.0 * X.ravel() + 0.3 * X.ravel()**2 + rng.normal(0, 1.5, size=300)
 
 # Fit LWCP and Vanilla CP
 model = LWCP(predictor=LinearRegression(), alpha=0.1, random_state=0)
@@ -55,23 +56,24 @@ vanilla = LWCP(predictor=LinearRegression(), alpha=0.1, random_state=0,
 vanilla.fit(X, y)
 
 # Predict on a dense grid
-X_grid = np.linspace(X.min() - 0.5, X.max() + 0.5, 500).reshape(-1, 1)
+X_grid = np.linspace(-3, 9, 600).reshape(-1, 1)
 y_pred, lower, upper = model.predict(X_grid)
 y_pred_v, lower_v, upper_v = vanilla.predict(X_grid)
 
 # Plot side by side
-fig, axes = plt.subplots(1, 2, figsize=(13, 5))
+fig, axes = plt.subplots(1, 2, figsize=(14, 5.5), sharey=True)
 for ax, lo, hi, yp, color, title in [
     (axes[0], lower_v, upper_v, y_pred_v, "#7f7f7f", "Vanilla Conformal Prediction"),
     (axes[1], lower, upper, y_pred, "#d62728", "Leverage-Weighted CP (LWCP)"),
 ]:
-    ax.scatter(X.ravel(), y, alpha=0.35, s=15, color="#555555",
-               edgecolors="white", linewidths=0.3)
-    ax.plot(X_grid.ravel(), yp, color=color, linewidth=2)
-    ax.fill_between(X_grid.ravel(), lo, hi, alpha=0.25, color=color,
-                    label="90% interval")
-    ax.set_xlabel("x"); ax.set_ylabel("y"); ax.set_title(title)
+    ax.fill_between(X_grid.ravel(), lo, hi, alpha=0.22, color=color,
+                    label="90% prediction interval")
+    ax.scatter(X.ravel(), y, alpha=0.4, s=14, color="#333333",
+               edgecolors="white", linewidths=0.3, zorder=3)
+    ax.plot(X_grid.ravel(), yp, color=color, linewidth=2.2, zorder=4)
+    ax.set_xlabel("x"); ax.set_title(title, fontweight="bold")
     ax.legend(loc="upper left")
+axes[0].set_ylabel("y")
 
 plt.tight_layout()
 plt.savefig("lwcp_example.png", dpi=150)
