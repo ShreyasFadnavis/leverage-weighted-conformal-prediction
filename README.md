@@ -30,62 +30,52 @@ pip install -e ".[experiments]"
 
 ## Example
 
-A complete example on the Diabetes dataset with visualization:
+Vanilla conformal prediction uses constant-width bands. LWCP adapts: wider where
+data is sparse (high leverage), narrower where data is dense.
 
 ![LWCP Example](examples/lwcp_example.png)
 
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.datasets import load_diabetes
 from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import train_test_split
-from lwcp import LWCP, LeverageComputer
+from lwcp import LWCP, ConstantWeight
 
-# Load data and split into train+calibration vs test
-X, y = load_diabetes(return_X_y=True)
-X_fit, X_test, y_fit, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# 1D regression: cluster of points near origin, a few high-leverage points far out
+rng = np.random.default_rng(42)
+X = np.vstack([rng.normal(0, 1, (250, 1)), rng.uniform(3, 6, (50, 1))])
+y = 3.0 * X.ravel() + rng.normal(0, 2, size=300)
 
-# Fit LWCP with 90% coverage
-model = LWCP(predictor=LinearRegression(), alpha=0.1, random_state=42)
-model.fit(X_fit, y_fit)
-y_pred, lower, upper = model.predict(X_test)
+# Fit LWCP and Vanilla CP
+model = LWCP(predictor=LinearRegression(), alpha=0.1, random_state=0)
+model.fit(X, y)
 
-# Compute test-point leverage scores for coloring
-h_test = model.leverage_computer_.leverage_scores(X_test)
+vanilla = LWCP(predictor=LinearRegression(), alpha=0.1, random_state=0,
+               weight_fn=ConstantWeight())
+vanilla.fit(X, y)
 
-# Plot prediction intervals sorted by leverage
-order = np.argsort(h_test)
-fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+# Predict on a dense grid
+X_grid = np.linspace(X.min() - 0.5, X.max() + 0.5, 500).reshape(-1, 1)
+y_pred, lower, upper = model.predict(X_grid)
+y_pred_v, lower_v, upper_v = vanilla.predict(X_grid)
 
-# Left: intervals colored by leverage
-ax = axes[0]
-for i, idx in enumerate(order):
-    color = plt.cm.viridis(h_test[idx] / h_test.max())
-    ax.plot([i, i], [lower[idx], upper[idx]], color=color, linewidth=1.5, alpha=0.7)
-ax.scatter(range(len(order)), y_test[order], color="black", s=10, zorder=5, label="True y")
-ax.set_xlabel("Test points (sorted by leverage)")
-ax.set_ylabel("Response")
-ax.set_title("LWCP Prediction Intervals")
-ax.legend()
-
-# Right: interval width vs leverage
-ax = axes[1]
-widths = upper - lower
-ax.scatter(h_test, widths, alpha=0.6, edgecolors="white", linewidths=0.5)
-ax.set_xlabel("Leverage score h(x)")
-ax.set_ylabel("Interval width")
-ax.set_title("Width Adapts to Leverage")
+# Plot side by side
+fig, axes = plt.subplots(1, 2, figsize=(13, 5))
+for ax, lo, hi, yp, color, title in [
+    (axes[0], lower_v, upper_v, y_pred_v, "#7f7f7f", "Vanilla Conformal Prediction"),
+    (axes[1], lower, upper, y_pred, "#d62728", "Leverage-Weighted CP (LWCP)"),
+]:
+    ax.scatter(X.ravel(), y, alpha=0.35, s=15, color="#555555",
+               edgecolors="white", linewidths=0.3)
+    ax.plot(X_grid.ravel(), yp, color=color, linewidth=2)
+    ax.fill_between(X_grid.ravel(), lo, hi, alpha=0.25, color=color,
+                    label="90% interval")
+    ax.set_xlabel("x"); ax.set_ylabel("y"); ax.set_title(title)
+    ax.legend(loc="upper left")
 
 plt.tight_layout()
 plt.savefig("lwcp_example.png", dpi=150)
 plt.show()
-
-# Print summary
-coverage = np.mean((y_test >= lower) & (y_test <= upper))
-print(f"Coverage: {coverage:.1%}")
-print(f"Mean width: {np.mean(widths):.2f}")
-print(f"Width range: [{np.min(widths):.2f}, {np.max(widths):.2f}]")
 ```
 
 ## Quick Start
